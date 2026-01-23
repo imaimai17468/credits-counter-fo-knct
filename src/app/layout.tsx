@@ -29,10 +29,10 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <div className="flex min-h-dvh flex-col gap-16">
+          <div className="flex min-h-dvh flex-col gap-8">
             <Header />
             <div className="flex w-full flex-1 justify-center px-6 md:px-4">
-              <div className="container w-full">{children}</div>
+              <div className="w-full max-w-5xl">{children}</div>
             </div>
           </div>
           <Toaster richColors position="top-center" />

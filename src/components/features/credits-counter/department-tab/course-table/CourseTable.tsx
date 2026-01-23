@@ -1,11 +1,6 @@
 "use client";
 
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
+import React from "react";
 import {
   Table,
   TableBody,
@@ -46,59 +41,58 @@ export function CourseTable({
     .sort((a, b) => a - b);
 
   return (
-    <Accordion type="multiple" defaultValue={grades.map((g) => `grade-${g}`)}>
-      {grades.map((grade) => {
-        const gradeCourses = coursesByGrade[grade];
-        const checkedCount = gradeCourses.filter((c) =>
-          checkedCourses.has(c.subjectName),
-        ).length;
+    <div className="overflow-x-auto rounded-lg border">
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead className="w-12"></TableHead>
+            <TableHead>教科名</TableHead>
+            <TableHead className="w-20 text-center">学年</TableHead>
+            <TableHead className="w-24 text-center">科目</TableHead>
+            <TableHead className="w-24 text-center">区分</TableHead>
+            <TableHead className="w-24 text-center">単位数</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {grades.map((grade) => {
+            const gradeCourses = coursesByGrade[grade];
+            const checkedCount = gradeCourses.filter((c) =>
+              checkedCourses.has(c.subjectName),
+            ).length;
 
-        return (
-          <AccordionItem key={grade} value={`grade-${grade}`}>
-            <AccordionTrigger>
-              {grade}年次科目 ({checkedCount} / {gradeCourses.length} 選択)
-            </AccordionTrigger>
-            <AccordionContent>
-              <div className="overflow-x-auto rounded-lg border">
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead className="w-12"></TableHead>
-                      <TableHead>教科名</TableHead>
-                      <TableHead className="w-20 text-center">学年</TableHead>
-                      <TableHead className="w-24 text-center">科目</TableHead>
-                      <TableHead className="w-24 text-center">区分</TableHead>
-                      <TableHead className="w-24 text-center">単位数</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {gradeCourses.map((course, index) => (
-                      <CourseTableRow
-                        key={`${course.subjectName}-${course.grade}-${index}`}
-                        course={course}
-                        checked={checkedCourses.has(course.subjectName)}
-                        onToggle={(checked) => {
-                          if (checked) {
-                            dispatch({
-                              type: "CHECK_COURSE",
-                              subjectName: course.subjectName,
-                            });
-                          } else {
-                            dispatch({
-                              type: "UNCHECK_COURSE",
-                              subjectName: course.subjectName,
-                            });
-                          }
-                        }}
-                      />
-                    ))}
-                  </TableBody>
-                </Table>
-              </div>
-            </AccordionContent>
-          </AccordionItem>
-        );
-      })}
-    </Accordion>
+            return (
+              <React.Fragment key={grade}>
+                <TableRow className="bg-muted/50 hover:bg-muted/50">
+                  <td colSpan={6} className="px-4 py-3 font-semibold text-sm">
+                    {grade}年次科目 ({checkedCount} / {gradeCourses.length}{" "}
+                    選択)
+                  </td>
+                </TableRow>
+                {gradeCourses.map((course, index) => (
+                  <CourseTableRow
+                    key={`${course.subjectName}-${course.grade}-${index}`}
+                    course={course}
+                    checked={checkedCourses.has(course.subjectName)}
+                    onToggle={(checked) => {
+                      if (checked) {
+                        dispatch({
+                          type: "CHECK_COURSE",
+                          subjectName: course.subjectName,
+                        });
+                      } else {
+                        dispatch({
+                          type: "UNCHECK_COURSE",
+                          subjectName: course.subjectName,
+                        });
+                      }
+                    }}
+                  />
+                ))}
+              </React.Fragment>
+            );
+          })}
+        </TableBody>
+      </Table>
+    </div>
   );
 }

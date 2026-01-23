@@ -49,9 +49,7 @@ export function DepartmentTab({
         </p>
       </div>
 
-      <div className="sticky top-20 z-40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <CreditsCalculator result={calculationResult} />
-      </div>
+      <CreditsCalculator result={calculationResult} />
 
       <div className="space-y-4">
         <h3 className="font-semibold text-lg">授業一覧</h3>

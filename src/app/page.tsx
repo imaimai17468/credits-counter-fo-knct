@@ -32,7 +32,6 @@ export default function Home() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="mb-2 font-bold text-3xl">木更津高専単位カウンター</h1>
         <p className="text-muted-foreground">
           卒業に必要な単位数を計算するツールです。履修した科目にチェックを入れてください。
         </p>
