@@ -36,10 +36,15 @@ export function CreditsCalculator({ result }: CreditsCalculatorProps) {
               </span>
             </div>
             <Progress
-              value={
-                (result.totalCredits / GRADUATION_REQUIREMENTS.TOTAL) * 100
-              }
-              className="h-2 transition-all"
+              value={Math.min(
+                (result.totalCredits / GRADUATION_REQUIREMENTS.TOTAL) * 100,
+                100,
+              )}
+              className={`h-2 transition-all ${
+                result.totalCredits >= GRADUATION_REQUIREMENTS.TOTAL
+                  ? "[&>div]:bg-green-600 dark:[&>div]:bg-green-400"
+                  : ""
+              }`}
             />
           </div>
 
@@ -62,10 +67,15 @@ export function CreditsCalculator({ result }: CreditsCalculatorProps) {
               </span>
             </div>
             <Progress
-              value={
-                (result.generalCredits / GRADUATION_REQUIREMENTS.GENERAL) * 100
-              }
-              className="h-2 transition-all"
+              value={Math.min(
+                (result.generalCredits / GRADUATION_REQUIREMENTS.GENERAL) * 100,
+                100,
+              )}
+              className={`h-2 transition-all ${
+                result.generalCredits >= GRADUATION_REQUIREMENTS.GENERAL
+                  ? "[&>div]:bg-green-600 dark:[&>div]:bg-green-400"
+                  : ""
+              }`}
             />
           </div>
 
@@ -89,12 +99,17 @@ export function CreditsCalculator({ result }: CreditsCalculatorProps) {
               </span>
             </div>
             <Progress
-              value={
+              value={Math.min(
                 (result.specializedCredits /
                   GRADUATION_REQUIREMENTS.SPECIALTY) *
-                100
-              }
-              className="h-2 transition-all"
+                  100,
+                100,
+              )}
+              className={`h-2 transition-all ${
+                result.specializedCredits >= GRADUATION_REQUIREMENTS.SPECIALTY
+                  ? "[&>div]:bg-green-600 dark:[&>div]:bg-green-400"
+                  : ""
+              }`}
             />
           </div>
         </div>
