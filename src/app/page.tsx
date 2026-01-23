@@ -1,6 +1,8 @@
 import { Suspense } from "react";
 import { CreditsCounter } from "@/components/features/credits-counter/CreditsCounter";
+import { YearSelector } from "@/components/features/credits-counter/YearSelector";
 import {
+  getAvailableYears,
   loadAllCourses,
   loadAllQualifications,
   loadSpecialCredits,
@@ -14,13 +16,19 @@ function LoadingState() {
   );
 }
 
-async function CreditsCounterData() {
-  const coursesMap = loadAllCourses();
-  const specialCredits = loadSpecialCredits();
-  const qualificationsMap = loadAllQualifications();
+type CreditsCounterDataProps = {
+  year: string;
+};
+
+async function CreditsCounterData({ year }: CreditsCounterDataProps) {
+  // 指定された年度のカリキュラムデータを読み込む
+  const coursesMap = loadAllCourses(year);
+  const specialCredits = loadSpecialCredits(year);
+  const qualificationsMap = loadAllQualifications(year);
 
   return (
     <CreditsCounter
+      year={year}
       coursesMap={coursesMap}
       specialCredits={specialCredits}
       qualificationsMap={qualificationsMap}
@@ -28,7 +36,22 @@ async function CreditsCounterData() {
   );
 }
 
-export default function Home() {
+type HomeProps = {
+  searchParams: Promise<{ year?: string }>;
+};
+
+export default async function Home({ searchParams }: HomeProps) {
+  const params = await searchParams;
+
+  // 利用可能な年度一覧を取得
+  const availableYears = getAvailableYears();
+
+  // URLパラメータから年度を取得、デフォルトは最新年度
+  const selectedYear =
+    params.year && availableYears.includes(params.year)
+      ? params.year
+      : availableYears[0] || "2024";
+
   return (
     <div className="space-y-6">
       <div>
@@ -37,8 +60,13 @@ export default function Home() {
         </p>
       </div>
 
+      <YearSelector
+        availableYears={availableYears}
+        selectedYear={selectedYear}
+      />
+
       <Suspense fallback={<LoadingState />}>
-        <CreditsCounterData />
+        <CreditsCounterData year={selectedYear} />
       </Suspense>
     </div>
   );

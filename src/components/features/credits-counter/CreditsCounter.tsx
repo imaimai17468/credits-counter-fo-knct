@@ -16,12 +16,14 @@ import { useCreditsState } from "./useCreditsState";
 import { useLocalStorageSync } from "./useLocalStorageSync";
 
 type CreditsCounterProps = {
+  year: string;
   coursesMap: Record<Department, Course[]>;
   specialCredits: SpecialCredit[];
   qualificationsMap: Record<Department, Qualification[]>;
 };
 
 export function CreditsCounter({
+  year,
   coursesMap,
   specialCredits,
   qualificationsMap,
@@ -29,8 +31,8 @@ export function CreditsCounter({
   const [selectedDepartment, setSelectedDepartment] = useState<Department>("M");
   const [state, dispatch] = useCreditsState();
 
-  // localStorage同期
-  useLocalStorageSync(selectedDepartment, state, dispatch);
+  // localStorage同期（年度を含めたキー）
+  useLocalStorageSync(year, selectedDepartment, state, dispatch);
 
   return (
     <>

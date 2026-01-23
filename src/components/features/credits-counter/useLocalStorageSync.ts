@@ -7,8 +7,8 @@ import type { CreditsAction, CreditsState } from "./useCreditsState";
 /**
  * localStorage のキーを生成
  */
-function getStorageKey(department: Department): string {
-  return `credits-counter-${department}`;
+function getStorageKey(year: string, department: Department): string {
+  return `credits-counter-${year}-${department}`;
 }
 
 /**
@@ -38,13 +38,14 @@ function deserializeState(json: string): CreditsState {
  * カスタムフック: localStorage と状態を同期
  */
 export function useLocalStorageSync(
+  year: string,
   department: Department,
   state: CreditsState,
   dispatch: React.Dispatch<CreditsAction>,
 ) {
   // 初回マウント時にlocalStorageから復元
   useEffect(() => {
-    const key = getStorageKey(department);
+    const key = getStorageKey(year, department);
     const stored = localStorage.getItem(key);
 
     if (stored) {
@@ -55,11 +56,11 @@ export function useLocalStorageSync(
         console.error("Failed to restore state from localStorage:", error);
       }
     }
-  }, [department, dispatch]);
+  }, [year, department, dispatch]);
 
   // 状態が変更されたらlocalStorageに保存
   useEffect(() => {
-    const key = getStorageKey(department);
+    const key = getStorageKey(year, department);
     localStorage.setItem(key, serializeState(state));
-  }, [department, state]);
+  }, [year, department, state]);
 }
