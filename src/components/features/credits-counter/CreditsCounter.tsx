@@ -10,6 +10,7 @@ import {
 } from "@/entities/credits/department";
 import type { Qualification } from "@/entities/credits/qualification";
 import type { SpecialCredit } from "@/entities/credits/special-credit";
+import { BackToTopButton } from "./BackToTopButton";
 import { DepartmentTab } from "./department-tab/DepartmentTab";
 import { useCreditsState } from "./useCreditsState";
 import { useLocalStorageSync } from "./useLocalStorageSync";
@@ -32,32 +33,35 @@ export function CreditsCounter({
   useLocalStorageSync(selectedDepartment, state, dispatch);
 
   return (
-    <div className="w-full">
-      <Tabs
-        value={selectedDepartment}
-        onValueChange={(value) => setSelectedDepartment(value as Department)}
-      >
-        <TabsList className="grid w-full grid-cols-5">
-          {ALL_DEPARTMENTS.map((dept) => (
-            <TabsTrigger key={dept} value={dept}>
-              {DEPARTMENT_INFO[dept].name}
-            </TabsTrigger>
-          ))}
-        </TabsList>
+    <>
+      <div className="w-full">
+        <Tabs
+          value={selectedDepartment}
+          onValueChange={(value) => setSelectedDepartment(value as Department)}
+        >
+          <TabsList className="grid w-full grid-cols-5">
+            {ALL_DEPARTMENTS.map((dept) => (
+              <TabsTrigger key={dept} value={dept}>
+                {DEPARTMENT_INFO[dept].name}
+              </TabsTrigger>
+            ))}
+          </TabsList>
 
-        {ALL_DEPARTMENTS.map((dept) => (
-          <TabsContent key={dept} value={dept}>
-            <DepartmentTab
-              department={dept}
-              courses={coursesMap[dept]}
-              specialCredits={specialCredits}
-              qualifications={qualificationsMap[dept]}
-              state={state}
-              dispatch={dispatch}
-            />
-          </TabsContent>
-        ))}
-      </Tabs>
-    </div>
+          {ALL_DEPARTMENTS.map((dept) => (
+            <TabsContent key={dept} value={dept}>
+              <DepartmentTab
+                department={dept}
+                courses={coursesMap[dept]}
+                specialCredits={specialCredits}
+                qualifications={qualificationsMap[dept]}
+                state={state}
+                dispatch={dispatch}
+              />
+            </TabsContent>
+          ))}
+        </Tabs>
+      </div>
+      <BackToTopButton />
+    </>
   );
 }
