@@ -1,0 +1,65 @@
+"use client";
+
+import { useEffect } from "react";
+import type { Department } from "@/entities/credits/department";
+import type { CreditsAction, CreditsState } from "./useCreditsState";
+
+/**
+ * localStorage のキーを生成
+ */
+function getStorageKey(department: Department): string {
+  return `credits-counter-${department}`;
+}
+
+/**
+ * Set を配列に変換してJSON対応させる
+ */
+function serializeState(state: CreditsState): string {
+  return JSON.stringify({
+    checkedCourses: Array.from(state.checkedCourses),
+    checkedSpecialCredits: Array.from(state.checkedSpecialCredits),
+    checkedQualifications: Array.from(state.checkedQualifications),
+  });
+}
+
+/**
+ * JSON を CreditsState に復元
+ */
+function deserializeState(json: string): CreditsState {
+  const parsed = JSON.parse(json);
+  return {
+    checkedCourses: new Set(parsed.checkedCourses || []),
+    checkedSpecialCredits: new Set(parsed.checkedSpecialCredits || []),
+    checkedQualifications: new Set(parsed.checkedQualifications || []),
+  };
+}
+
+/**
+ * カスタムフック: localStorage と状態を同期
+ */
+export function useLocalStorageSync(
+  department: Department,
+  state: CreditsState,
+  dispatch: React.Dispatch<CreditsAction>,
+) {
+  // 初回マウント時にlocalStorageから復元
+  useEffect(() => {
+    const key = getStorageKey(department);
+    const stored = localStorage.getItem(key);
+
+    if (stored) {
+      try {
+        const restoredState = deserializeState(stored);
+        dispatch({ type: "RESTORE_STATE", state: restoredState });
+      } catch (error) {
+        console.error("Failed to restore state from localStorage:", error);
+      }
+    }
+  }, [department, dispatch]);
+
+  // 状態が変更されたらlocalStorageに保存
+  useEffect(() => {
+    const key = getStorageKey(department);
+    localStorage.setItem(key, serializeState(state));
+  }, [department, state]);
+}
