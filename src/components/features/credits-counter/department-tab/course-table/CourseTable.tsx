@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Table,
   TableBody,
@@ -79,39 +80,71 @@ export function CourseTable({
             ).length;
 
             const isCollapsed = collapsedGrades.has(grade);
+            const allChecked = gradeCourses.every((c) =>
+              checkedCourses.has(c.subjectName),
+            );
+            const someChecked =
+              checkedCount > 0 && checkedCount < gradeCourses.length;
 
             return (
               <React.Fragment key={grade}>
-                <TableRow
-                  className="cursor-pointer bg-muted/50 transition-colors hover:bg-muted/70"
-                  onClick={() => toggleGrade(grade)}
-                >
+                <TableRow className="bg-muted/50 transition-colors hover:bg-muted/70">
                   <td colSpan={6} className="px-4 py-3 font-semibold text-sm">
-                    <div className="flex items-center gap-2">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth={2}
-                        stroke="currentColor"
-                        className={`h-4 w-4 transition-transform ${
-                          isCollapsed ? "-rotate-90" : ""
-                        }`}
-                        role="img"
-                        aria-label={
-                          isCollapsed
-                            ? "グループを展開"
-                            : "グループを折りたたむ"
+                    <div className="flex items-center gap-3">
+                      <Checkbox
+                        checked={allChecked}
+                        className={
+                          someChecked
+                            ? "data-[state=checked]:bg-primary/50"
+                            : ""
                         }
+                        onCheckedChange={(checked) => {
+                          if (checked) {
+                            dispatch({
+                              type: "CHECK_GRADE_COURSES",
+                              courses: gradeCourses,
+                            });
+                          } else {
+                            dispatch({
+                              type: "UNCHECK_GRADE_COURSES",
+                              courses: gradeCourses,
+                            });
+                          }
+                        }}
+                        onClick={(e) => e.stopPropagation()}
+                        aria-label={`${grade}年次科目を全選択/全解除`}
+                      />
+                      <button
+                        type="button"
+                        className="flex flex-1 cursor-pointer items-center gap-2 text-left"
+                        onClick={() => toggleGrade(grade)}
+                        aria-expanded={!isCollapsed}
                       >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M19.5 8.25l-7.5 7.5-7.5-7.5"
-                        />
-                      </svg>
-                      {grade}年次科目 ({checkedCount} / {gradeCourses.length}{" "}
-                      選択)
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          strokeWidth={2}
+                          stroke="currentColor"
+                          className={`h-4 w-4 transition-transform ${
+                            isCollapsed ? "-rotate-90" : ""
+                          }`}
+                          role="img"
+                          aria-label={
+                            isCollapsed
+                              ? "グループを展開"
+                              : "グループを折りたたむ"
+                          }
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M19.5 8.25l-7.5 7.5-7.5-7.5"
+                          />
+                        </svg>
+                        {grade}年次科目 ({checkedCount} / {gradeCourses.length}{" "}
+                        選択)
+                      </button>
                     </div>
                   </td>
                 </TableRow>
@@ -120,30 +153,6 @@ export function CourseTable({
                     <TableRow>
                       <td colSpan={6} className="bg-background px-4 py-2">
                         <div className="flex flex-wrap gap-2">
-                          <Button
-                            variant="default"
-                            size="sm"
-                            onClick={() =>
-                              dispatch({
-                                type: "CHECK_GRADE_COURSES",
-                                courses: gradeCourses,
-                              })
-                            }
-                          >
-                            全選択
-                          </Button>
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            onClick={() =>
-                              dispatch({
-                                type: "UNCHECK_GRADE_COURSES",
-                                courses: gradeCourses,
-                              })
-                            }
-                          >
-                            全解除
-                          </Button>
                           <Button
                             variant="secondary"
                             size="sm"
