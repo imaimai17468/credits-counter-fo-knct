@@ -90,7 +90,7 @@ export function CourseTable({
               <React.Fragment key={grade}>
                 <TableRow className="bg-muted/50 transition-colors hover:bg-muted/70">
                   <td colSpan={6} className="px-4 py-3 font-semibold text-sm">
-                    <div className="flex items-center gap-3">
+                    <div className="flex flex-wrap items-center gap-2 md:gap-3">
                       <Checkbox
                         checked={allChecked}
                         className={
@@ -116,7 +116,7 @@ export function CourseTable({
                       />
                       <button
                         type="button"
-                        className="flex flex-1 cursor-pointer items-center gap-2 text-left"
+                        className="flex cursor-pointer items-center gap-2 text-left"
                         onClick={() => toggleGrade(grade)}
                         aria-expanded={!isCollapsed}
                       >
@@ -145,75 +145,71 @@ export function CourseTable({
                         {grade}年次科目 ({checkedCount} / {gradeCourses.length}{" "}
                         選択)
                       </button>
+                      <div className="ml-auto flex flex-wrap gap-2">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            dispatch({
+                              type: "CHECK_GRADE_REQUIRED_COURSES",
+                              courses: gradeCourses,
+                            });
+                          }}
+                        >
+                          必修のみ
+                        </Button>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            dispatch({
+                              type: "CHECK_GRADE_GENERAL_REQUIRED_COURSES",
+                              courses: gradeCourses,
+                            });
+                          }}
+                        >
+                          一般必修
+                        </Button>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            dispatch({
+                              type: "CHECK_GRADE_SPECIALIZED_REQUIRED_COURSES",
+                              courses: gradeCourses,
+                            });
+                          }}
+                        >
+                          専門必修
+                        </Button>
+                      </div>
                     </div>
                   </td>
                 </TableRow>
-                {!isCollapsed && (
-                  <>
-                    <TableRow>
-                      <td colSpan={6} className="bg-background px-4 py-2">
-                        <div className="flex flex-wrap gap-2">
-                          <Button
-                            variant="secondary"
-                            size="sm"
-                            onClick={() =>
-                              dispatch({
-                                type: "CHECK_GRADE_REQUIRED_COURSES",
-                                courses: gradeCourses,
-                              })
-                            }
-                          >
-                            必修のみ
-                          </Button>
-                          <Button
-                            variant="secondary"
-                            size="sm"
-                            onClick={() =>
-                              dispatch({
-                                type: "CHECK_GRADE_GENERAL_REQUIRED_COURSES",
-                                courses: gradeCourses,
-                              })
-                            }
-                          >
-                            一般必修
-                          </Button>
-                          <Button
-                            variant="secondary"
-                            size="sm"
-                            onClick={() =>
-                              dispatch({
-                                type: "CHECK_GRADE_SPECIALIZED_REQUIRED_COURSES",
-                                courses: gradeCourses,
-                              })
-                            }
-                          >
-                            専門必修
-                          </Button>
-                        </div>
-                      </td>
-                    </TableRow>
-                    {gradeCourses.map((course, index) => (
-                      <CourseTableRow
-                        key={`${course.subjectName}-${course.grade}-${index}`}
-                        course={course}
-                        checked={checkedCourses.has(course.subjectName)}
-                        onToggle={(checked) => {
-                          if (checked) {
-                            dispatch({
-                              type: "CHECK_COURSE",
-                              subjectName: course.subjectName,
-                            });
-                          } else {
-                            dispatch({
-                              type: "UNCHECK_COURSE",
-                              subjectName: course.subjectName,
-                            });
-                          }
-                        }}
-                      />
-                    ))}
-                  </>
-                )}
+                {!isCollapsed &&
+                  gradeCourses.map((course, index) => (
+                    <CourseTableRow
+                      key={`${course.subjectName}-${course.grade}-${index}`}
+                      course={course}
+                      checked={checkedCourses.has(course.subjectName)}
+                      onToggle={(checked) => {
+                        if (checked) {
+                          dispatch({
+                            type: "CHECK_COURSE",
+                            subjectName: course.subjectName,
+                          });
+                        } else {
+                          dispatch({
+                            type: "UNCHECK_COURSE",
+                            subjectName: course.subjectName,
+                          });
+                        }
+                      }}
+                    />
+                  ))}
               </React.Fragment>
             );
           })}
