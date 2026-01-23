@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import {
   Table,
   TableBody,
@@ -40,6 +40,23 @@ export function CourseTable({
     .map(Number)
     .sort((a, b) => a - b);
 
+  // State to manage collapsed/expanded groups (all expanded by default)
+  const [collapsedGrades, setCollapsedGrades] = useState<Set<number>>(
+    new Set(),
+  );
+
+  const toggleGrade = (grade: number) => {
+    setCollapsedGrades((prev) => {
+      const next = new Set(prev);
+      if (next.has(grade)) {
+        next.delete(grade);
+      } else {
+        next.add(grade);
+      }
+      return next;
+    });
+  };
+
   return (
     <div className="overflow-x-auto rounded-lg border">
       <Table>
@@ -60,34 +77,64 @@ export function CourseTable({
               checkedCourses.has(c.subjectName),
             ).length;
 
+            const isCollapsed = collapsedGrades.has(grade);
+
             return (
               <React.Fragment key={grade}>
-                <TableRow className="bg-muted/50 hover:bg-muted/50">
+                <TableRow
+                  className="cursor-pointer bg-muted/50 transition-colors hover:bg-muted/70"
+                  onClick={() => toggleGrade(grade)}
+                >
                   <td colSpan={6} className="px-4 py-3 font-semibold text-sm">
-                    {grade}年次科目 ({checkedCount} / {gradeCourses.length}{" "}
-                    選択)
+                    <div className="flex items-center gap-2">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={2}
+                        stroke="currentColor"
+                        className={`h-4 w-4 transition-transform ${
+                          isCollapsed ? "-rotate-90" : ""
+                        }`}
+                        role="img"
+                        aria-label={
+                          isCollapsed
+                            ? "グループを展開"
+                            : "グループを折りたたむ"
+                        }
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M19.5 8.25l-7.5 7.5-7.5-7.5"
+                        />
+                      </svg>
+                      {grade}年次科目 ({checkedCount} / {gradeCourses.length}{" "}
+                      選択)
+                    </div>
                   </td>
                 </TableRow>
-                {gradeCourses.map((course, index) => (
-                  <CourseTableRow
-                    key={`${course.subjectName}-${course.grade}-${index}`}
-                    course={course}
-                    checked={checkedCourses.has(course.subjectName)}
-                    onToggle={(checked) => {
-                      if (checked) {
-                        dispatch({
-                          type: "CHECK_COURSE",
-                          subjectName: course.subjectName,
-                        });
-                      } else {
-                        dispatch({
-                          type: "UNCHECK_COURSE",
-                          subjectName: course.subjectName,
-                        });
-                      }
-                    }}
-                  />
-                ))}
+                {!isCollapsed &&
+                  gradeCourses.map((course, index) => (
+                    <CourseTableRow
+                      key={`${course.subjectName}-${course.grade}-${index}`}
+                      course={course}
+                      checked={checkedCourses.has(course.subjectName)}
+                      onToggle={(checked) => {
+                        if (checked) {
+                          dispatch({
+                            type: "CHECK_COURSE",
+                            subjectName: course.subjectName,
+                          });
+                        } else {
+                          dispatch({
+                            type: "UNCHECK_COURSE",
+                            subjectName: course.subjectName,
+                          });
+                        }
+                      }}
+                    />
+                  ))}
               </React.Fragment>
             );
           })}

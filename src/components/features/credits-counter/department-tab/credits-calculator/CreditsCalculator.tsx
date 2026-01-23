@@ -16,23 +16,23 @@ export function CreditsCalculator({ result }: CreditsCalculatorProps) {
         <CardTitle>単位計算結果</CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
-        <div className="space-y-4">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
           <div className="space-y-2">
-            <div className="flex items-baseline justify-between">
-              <p className="text-muted-foreground text-sm">合計単位数</p>
-              <p className="font-bold font-mono text-lg tabular-nums transition-all duration-300">
-                {result.totalCredits}/{GRADUATION_REQUIREMENTS.TOTAL}{" "}
-                <span
-                  className={`text-sm ${
-                    result.remainingTotal === 0
-                      ? "text-green-600 dark:text-green-400"
-                      : "text-red-600 dark:text-red-400"
-                  }`}
-                >
-                  残り{result.remainingTotal}単位
-                </span>
-              </p>
-            </div>
+            <p className="text-muted-foreground text-sm">
+              合計単位数{" "}
+              <span className="font-bold font-mono text-base text-foreground tabular-nums transition-all duration-300">
+                {result.totalCredits}/{GRADUATION_REQUIREMENTS.TOTAL}
+              </span>{" "}
+              <span
+                className={`font-bold text-sm ${
+                  result.remainingTotal === 0
+                    ? "text-green-600 dark:text-green-400"
+                    : "text-red-600 dark:text-red-400"
+                }`}
+              >
+                残り{result.remainingTotal}
+              </span>
+            </p>
             <Progress
               value={
                 (result.totalCredits / GRADUATION_REQUIREMENTS.TOTAL) * 100
@@ -42,21 +42,21 @@ export function CreditsCalculator({ result }: CreditsCalculatorProps) {
           </div>
 
           <div className="space-y-2">
-            <div className="flex items-baseline justify-between">
-              <p className="text-muted-foreground text-sm">一般科目</p>
-              <p className="font-bold font-mono text-lg tabular-nums transition-all duration-300">
-                {result.generalCredits}/{GRADUATION_REQUIREMENTS.GENERAL}{" "}
-                <span
-                  className={`text-sm ${
-                    result.remainingGeneral === 0
-                      ? "text-green-600 dark:text-green-400"
-                      : "text-red-600 dark:text-red-400"
-                  }`}
-                >
-                  残り{result.remainingGeneral}単位
-                </span>
-              </p>
-            </div>
+            <p className="text-muted-foreground text-sm">
+              一般科目{" "}
+              <span className="font-bold font-mono text-base text-foreground tabular-nums transition-all duration-300">
+                {result.generalCredits}/{GRADUATION_REQUIREMENTS.GENERAL}
+              </span>{" "}
+              <span
+                className={`font-bold text-sm ${
+                  result.remainingGeneral === 0
+                    ? "text-green-600 dark:text-green-400"
+                    : "text-red-600 dark:text-red-400"
+                }`}
+              >
+                残り{result.remainingGeneral}
+              </span>
+            </p>
             <Progress
               value={
                 (result.generalCredits / GRADUATION_REQUIREMENTS.GENERAL) * 100
@@ -66,21 +66,21 @@ export function CreditsCalculator({ result }: CreditsCalculatorProps) {
           </div>
 
           <div className="space-y-2">
-            <div className="flex items-baseline justify-between">
-              <p className="text-muted-foreground text-sm">専門科目</p>
-              <p className="font-bold font-mono text-lg tabular-nums transition-all duration-300">
-                {result.specializedCredits}/{GRADUATION_REQUIREMENTS.SPECIALTY}{" "}
-                <span
-                  className={`text-sm ${
-                    result.remainingSpecialized === 0
-                      ? "text-green-600 dark:text-green-400"
-                      : "text-red-600 dark:text-red-400"
-                  }`}
-                >
-                  残り{result.remainingSpecialized}単位
-                </span>
-              </p>
-            </div>
+            <p className="text-muted-foreground text-sm">
+              専門科目{" "}
+              <span className="font-bold font-mono text-base text-foreground tabular-nums transition-all duration-300">
+                {result.specializedCredits}/{GRADUATION_REQUIREMENTS.SPECIALTY}
+              </span>{" "}
+              <span
+                className={`font-bold text-sm ${
+                  result.remainingSpecialized === 0
+                    ? "text-green-600 dark:text-green-400"
+                    : "text-red-600 dark:text-red-400"
+                }`}
+              >
+                残り{result.remainingSpecialized}
+              </span>
+            </p>
             <Progress
               value={
                 (result.specializedCredits /
