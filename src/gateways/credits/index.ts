@@ -1,3 +1,4 @@
+export * from "./getAvailableYears";
 export * from "./loadCourses";
 export * from "./loadQualifications";
 export * from "./loadSpecialCredits";

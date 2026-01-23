@@ -3,15 +3,17 @@ import path from "node:path";
 
 /**
  * CSVファイルを読み込んで行ごとに解析する共通関数
- * @param fileName - public/data/credits/ 内のファイル名
+ * @param fileName - ファイル名
+ * @param year - 年度（例: "2023", "2024"）
  * @returns CSVの各行を配列として返す（ヘッダー行を除く）
  */
-export function parseCSV(fileName: string): string[][] {
+export function parseCSV(fileName: string, year: string = "2023"): string[][] {
   const filePath = path.join(
     process.cwd(),
     "public",
     "data",
     "credits",
+    year,
     fileName,
   );
 

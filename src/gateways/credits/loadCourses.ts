@@ -8,11 +8,15 @@ import { parseCSV } from "./parseCSV";
 /**
  * 指定学科の授業データを読み込む
  * @param department - 学科コード (M/E/D/J/C)
+ * @param year - 年度（例: "2023", "2024"）
  * @returns 授業データの配列
  */
-export function loadCourses(department: Department): Course[] {
+export function loadCourses(
+  department: Department,
+  year: string = "2023",
+): Course[] {
   const fileName = DEPARTMENT_INFO[department].csvFile;
-  const rows = parseCSV(fileName);
+  const rows = parseCSV(fileName, year);
 
   return rows.map((row, index) => {
     // CSVフォーマット: 教科名,学年,科目,区分,単位数
@@ -41,14 +45,17 @@ export function loadCourses(department: Department): Course[] {
 
 /**
  * 全学科の授業データを読み込む
+ * @param year - 年度（例: "2023", "2024"）
  * @returns 学科ごとの授業データマップ
  */
-export function loadAllCourses(): Record<Department, Course[]> {
+export function loadAllCourses(
+  year: string = "2023",
+): Record<Department, Course[]> {
   const departments: Department[] = ["M", "E", "D", "J", "C"];
 
   return departments.reduce(
     (acc, dept) => {
-      acc[dept] = loadCourses(dept);
+      acc[dept] = loadCourses(dept, year);
       return acc;
     },
     {} as Record<Department, Course[]>,
