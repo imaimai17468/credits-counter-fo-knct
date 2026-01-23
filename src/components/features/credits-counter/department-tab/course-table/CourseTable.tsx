@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { Button } from "@/components/ui/button";
 import {
   Table,
   TableBody,
@@ -114,27 +115,96 @@ export function CourseTable({
                     </div>
                   </td>
                 </TableRow>
-                {!isCollapsed &&
-                  gradeCourses.map((course, index) => (
-                    <CourseTableRow
-                      key={`${course.subjectName}-${course.grade}-${index}`}
-                      course={course}
-                      checked={checkedCourses.has(course.subjectName)}
-                      onToggle={(checked) => {
-                        if (checked) {
-                          dispatch({
-                            type: "CHECK_COURSE",
-                            subjectName: course.subjectName,
-                          });
-                        } else {
-                          dispatch({
-                            type: "UNCHECK_COURSE",
-                            subjectName: course.subjectName,
-                          });
-                        }
-                      }}
-                    />
-                  ))}
+                {!isCollapsed && (
+                  <>
+                    <TableRow>
+                      <td colSpan={6} className="bg-background px-4 py-2">
+                        <div className="flex flex-wrap gap-2">
+                          <Button
+                            variant="default"
+                            size="sm"
+                            onClick={() =>
+                              dispatch({
+                                type: "CHECK_GRADE_COURSES",
+                                courses: gradeCourses,
+                              })
+                            }
+                          >
+                            全選択
+                          </Button>
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() =>
+                              dispatch({
+                                type: "UNCHECK_GRADE_COURSES",
+                                courses: gradeCourses,
+                              })
+                            }
+                          >
+                            全解除
+                          </Button>
+                          <Button
+                            variant="secondary"
+                            size="sm"
+                            onClick={() =>
+                              dispatch({
+                                type: "CHECK_GRADE_REQUIRED_COURSES",
+                                courses: gradeCourses,
+                              })
+                            }
+                          >
+                            必修のみ
+                          </Button>
+                          <Button
+                            variant="secondary"
+                            size="sm"
+                            onClick={() =>
+                              dispatch({
+                                type: "CHECK_GRADE_GENERAL_REQUIRED_COURSES",
+                                courses: gradeCourses,
+                              })
+                            }
+                          >
+                            一般必修
+                          </Button>
+                          <Button
+                            variant="secondary"
+                            size="sm"
+                            onClick={() =>
+                              dispatch({
+                                type: "CHECK_GRADE_SPECIALIZED_REQUIRED_COURSES",
+                                courses: gradeCourses,
+                              })
+                            }
+                          >
+                            専門必修
+                          </Button>
+                        </div>
+                      </td>
+                    </TableRow>
+                    {gradeCourses.map((course, index) => (
+                      <CourseTableRow
+                        key={`${course.subjectName}-${course.grade}-${index}`}
+                        course={course}
+                        checked={checkedCourses.has(course.subjectName)}
+                        onToggle={(checked) => {
+                          if (checked) {
+                            dispatch({
+                              type: "CHECK_COURSE",
+                              subjectName: course.subjectName,
+                            });
+                          } else {
+                            dispatch({
+                              type: "UNCHECK_COURSE",
+                              subjectName: course.subjectName,
+                            });
+                          }
+                        }}
+                      />
+                    ))}
+                  </>
+                )}
               </React.Fragment>
             );
           })}

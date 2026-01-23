@@ -23,6 +23,11 @@ export type CreditsAction =
   | { type: "CHECK_REQUIRED_COURSES"; courses: Course[] }
   | { type: "CHECK_GENERAL_REQUIRED_COURSES"; courses: Course[] }
   | { type: "CHECK_SPECIALIZED_REQUIRED_COURSES"; courses: Course[] }
+  | { type: "CHECK_GRADE_COURSES"; courses: Course[] }
+  | { type: "UNCHECK_GRADE_COURSES"; courses: Course[] }
+  | { type: "CHECK_GRADE_REQUIRED_COURSES"; courses: Course[] }
+  | { type: "CHECK_GRADE_GENERAL_REQUIRED_COURSES"; courses: Course[] }
+  | { type: "CHECK_GRADE_SPECIALIZED_REQUIRED_COURSES"; courses: Course[] }
   | { type: "CHECK_SPECIAL_CREDIT"; item: string }
   | { type: "UNCHECK_SPECIAL_CREDIT"; item: string }
   | { type: "CHECK_QUALIFICATION"; item: string }
@@ -101,6 +106,51 @@ function creditsReducer(
       const newCheckedQualifications = new Set(state.checkedQualifications);
       newCheckedQualifications.delete(action.item);
       return { ...state, checkedQualifications: newCheckedQualifications };
+    }
+
+    case "CHECK_GRADE_COURSES": {
+      const newCheckedCourses = new Set(state.checkedCourses);
+      action.courses.forEach((c) => newCheckedCourses.add(c.subjectName));
+      return { ...state, checkedCourses: newCheckedCourses };
+    }
+
+    case "UNCHECK_GRADE_COURSES": {
+      const newCheckedCourses = new Set(state.checkedCourses);
+      action.courses.forEach((c) => newCheckedCourses.delete(c.subjectName));
+      return { ...state, checkedCourses: newCheckedCourses };
+    }
+
+    case "CHECK_GRADE_REQUIRED_COURSES": {
+      const newCheckedCourses = new Set(state.checkedCourses);
+      // Remove all courses from this grade first
+      action.courses.forEach((c) => newCheckedCourses.delete(c.subjectName));
+      // Add only required courses from this grade
+      action.courses
+        .filter((c) => c.type === "必修")
+        .forEach((c) => newCheckedCourses.add(c.subjectName));
+      return { ...state, checkedCourses: newCheckedCourses };
+    }
+
+    case "CHECK_GRADE_GENERAL_REQUIRED_COURSES": {
+      const newCheckedCourses = new Set(state.checkedCourses);
+      // Remove all courses from this grade first
+      action.courses.forEach((c) => newCheckedCourses.delete(c.subjectName));
+      // Add only general required courses from this grade
+      action.courses
+        .filter((c) => c.category === "一般" && c.type === "必修")
+        .forEach((c) => newCheckedCourses.add(c.subjectName));
+      return { ...state, checkedCourses: newCheckedCourses };
+    }
+
+    case "CHECK_GRADE_SPECIALIZED_REQUIRED_COURSES": {
+      const newCheckedCourses = new Set(state.checkedCourses);
+      // Remove all courses from this grade first
+      action.courses.forEach((c) => newCheckedCourses.delete(c.subjectName));
+      // Add only specialized required courses from this grade
+      action.courses
+        .filter((c) => c.category === "専門" && c.type === "必修")
+        .forEach((c) => newCheckedCourses.add(c.subjectName));
+      return { ...state, checkedCourses: newCheckedCourses };
     }
 
     case "RESTORE_STATE": {
