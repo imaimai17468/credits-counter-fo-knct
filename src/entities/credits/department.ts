@@ -13,13 +13,28 @@ export type Department = z.infer<typeof DepartmentSchema>;
  */
 export const DEPARTMENT_INFO: Record<
   Department,
-  { code: Department; name: string; csvFile: string }
+  { code: Department; name: string; shortName: string; csvFile: string }
 > = {
-  M: { code: "M", name: "機械工学科", csvFile: "11.csv" },
-  E: { code: "E", name: "電気電子工学科", csvFile: "12.csv" },
-  D: { code: "D", name: "電子制御工学科", csvFile: "13.csv" },
-  J: { code: "J", name: "情報工学科", csvFile: "14.csv" },
-  C: { code: "C", name: "環境都市工学科", csvFile: "15.csv" },
+  M: { code: "M", name: "機械工学科", shortName: "機械", csvFile: "11.csv" },
+  E: {
+    code: "E",
+    name: "電気電子工学科",
+    shortName: "電気電子",
+    csvFile: "12.csv",
+  },
+  D: {
+    code: "D",
+    name: "電子制御工学科",
+    shortName: "電子制御",
+    csvFile: "13.csv",
+  },
+  J: { code: "J", name: "情報工学科", shortName: "情報", csvFile: "14.csv" },
+  C: {
+    code: "C",
+    name: "環境都市工学科",
+    shortName: "環境都市",
+    csvFile: "15.csv",
+  },
 };
 
 /**

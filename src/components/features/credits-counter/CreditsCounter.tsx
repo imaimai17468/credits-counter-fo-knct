@@ -44,7 +44,12 @@ export function CreditsCounter({
           <TabsList className="grid w-full grid-cols-5">
             {ALL_DEPARTMENTS.map((dept) => (
               <TabsTrigger key={dept} value={dept}>
-                {DEPARTMENT_INFO[dept].name}
+                <span className="md:hidden">
+                  {DEPARTMENT_INFO[dept].shortName}
+                </span>
+                <span className="hidden md:inline">
+                  {DEPARTMENT_INFO[dept].name}
+                </span>
               </TabsTrigger>
             ))}
           </TabsList>
