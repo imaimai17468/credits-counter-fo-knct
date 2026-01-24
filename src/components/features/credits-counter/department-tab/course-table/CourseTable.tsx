@@ -89,62 +89,64 @@ export function CourseTable({
               <React.Fragment key={grade}>
                 <TableRow className="bg-muted/50 transition-colors hover:bg-muted/70">
                   <td colSpan={5} className="px-4 py-3 font-semibold text-sm">
-                    <div className="flex flex-wrap items-center gap-2 md:gap-3">
-                      <Checkbox
-                        checked={allChecked}
-                        className={
-                          someChecked
-                            ? "data-[state=checked]:bg-primary/50"
-                            : ""
-                        }
-                        onCheckedChange={(checked) => {
-                          if (checked) {
-                            dispatch({
-                              type: "CHECK_GRADE_COURSES",
-                              courses: gradeCourses,
-                            });
-                          } else {
-                            dispatch({
-                              type: "UNCHECK_GRADE_COURSES",
-                              courses: gradeCourses,
-                            });
+                    <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
+                      <div className="flex items-center gap-2">
+                        <Checkbox
+                          checked={allChecked}
+                          className={
+                            someChecked
+                              ? "data-[state=checked]:bg-primary/50"
+                              : ""
                           }
-                        }}
-                        onClick={(e) => e.stopPropagation()}
-                        aria-label={`${grade}年次科目を全選択/全解除`}
-                      />
-                      <button
-                        type="button"
-                        className="flex cursor-pointer items-center gap-2 text-left"
-                        onClick={() => toggleGrade(grade)}
-                        aria-expanded={!isCollapsed}
-                      >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          strokeWidth={2}
-                          stroke="currentColor"
-                          className={`h-4 w-4 transition-transform ${
-                            isCollapsed ? "-rotate-90" : ""
-                          }`}
-                          role="img"
-                          aria-label={
-                            isCollapsed
-                              ? "グループを展開"
-                              : "グループを折りたたむ"
-                          }
+                          onCheckedChange={(checked) => {
+                            if (checked) {
+                              dispatch({
+                                type: "CHECK_GRADE_COURSES",
+                                courses: gradeCourses,
+                              });
+                            } else {
+                              dispatch({
+                                type: "UNCHECK_GRADE_COURSES",
+                                courses: gradeCourses,
+                              });
+                            }
+                          }}
+                          onClick={(e) => e.stopPropagation()}
+                          aria-label={`${grade}年次科目を全選択/全解除`}
+                        />
+                        <button
+                          type="button"
+                          className="flex cursor-pointer items-center gap-2 text-left"
+                          onClick={() => toggleGrade(grade)}
+                          aria-expanded={!isCollapsed}
                         >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M19.5 8.25l-7.5 7.5-7.5-7.5"
-                          />
-                        </svg>
-                        {grade}年次科目 ({checkedCount} / {gradeCourses.length}{" "}
-                        選択)
-                      </button>
-                      <div className="ml-auto flex flex-wrap gap-2">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            strokeWidth={2}
+                            stroke="currentColor"
+                            className={`h-4 w-4 transition-transform ${
+                              isCollapsed ? "-rotate-90" : ""
+                            }`}
+                            role="img"
+                            aria-label={
+                              isCollapsed
+                                ? "グループを展開"
+                                : "グループを折りたたむ"
+                            }
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="M19.5 8.25l-7.5 7.5-7.5-7.5"
+                            />
+                          </svg>
+                          {grade}年次科目 ({checkedCount} /{" "}
+                          {gradeCourses.length} 選択)
+                        </button>
+                      </div>
+                      <div className="flex flex-wrap gap-2">
                         <Button
                           variant="outline"
                           size="sm"
