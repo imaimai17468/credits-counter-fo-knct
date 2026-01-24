@@ -10,6 +10,7 @@ export type CreditsState = {
   checkedCourses: Set<string>;
   checkedSpecialCredits: Set<string>;
   checkedQualifications: Set<string>;
+  checkedActivityCredits: Set<string>;
 };
 
 /**
@@ -32,6 +33,8 @@ export type CreditsAction =
   | { type: "UNCHECK_SPECIAL_CREDIT"; item: string }
   | { type: "CHECK_QUALIFICATION"; item: string }
   | { type: "UNCHECK_QUALIFICATION"; item: string }
+  | { type: "CHECK_ACTIVITY_CREDIT"; name: string }
+  | { type: "UNCHECK_ACTIVITY_CREDIT"; name: string }
   | { type: "RESTORE_STATE"; state: CreditsState };
 
 /**
@@ -108,6 +111,18 @@ function creditsReducer(
       return { ...state, checkedQualifications: newCheckedQualifications };
     }
 
+    case "CHECK_ACTIVITY_CREDIT": {
+      const newCheckedActivityCredits = new Set(state.checkedActivityCredits);
+      newCheckedActivityCredits.add(action.name);
+      return { ...state, checkedActivityCredits: newCheckedActivityCredits };
+    }
+
+    case "UNCHECK_ACTIVITY_CREDIT": {
+      const newCheckedActivityCredits = new Set(state.checkedActivityCredits);
+      newCheckedActivityCredits.delete(action.name);
+      return { ...state, checkedActivityCredits: newCheckedActivityCredits };
+    }
+
     case "CHECK_GRADE_COURSES": {
       const newCheckedCourses = new Set(state.checkedCourses);
       action.courses.forEach((c) => newCheckedCourses.add(c.subjectName));
@@ -169,6 +184,7 @@ const initialState: CreditsState = {
   checkedCourses: new Set(),
   checkedSpecialCredits: new Set(),
   checkedQualifications: new Set(),
+  checkedActivityCredits: new Set(),
 };
 
 /**

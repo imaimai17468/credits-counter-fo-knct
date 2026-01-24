@@ -19,6 +19,7 @@ function serializeState(state: CreditsState): string {
     checkedCourses: Array.from(state.checkedCourses),
     checkedSpecialCredits: Array.from(state.checkedSpecialCredits),
     checkedQualifications: Array.from(state.checkedQualifications),
+    checkedActivityCredits: Array.from(state.checkedActivityCredits),
   });
 }
 
@@ -31,6 +32,7 @@ function deserializeState(json: string): CreditsState {
     checkedCourses: new Set(parsed.checkedCourses || []),
     checkedSpecialCredits: new Set(parsed.checkedSpecialCredits || []),
     checkedQualifications: new Set(parsed.checkedQualifications || []),
+    checkedActivityCredits: new Set(parsed.checkedActivityCredits || []),
   };
 }
 

@@ -15,6 +15,8 @@ export type StudentCredits = {
   checkedSpecialCredits: Set<string>;
   /** チェックした資格のSet（項目をキーとして使用） */
   checkedQualifications: Set<string>;
+  /** チェックした特別学修（活動）のSet（項目名をキーとして使用） */
+  checkedActivityCredits: Set<string>;
 };
 
 /**
