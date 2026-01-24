@@ -1,0 +1,21 @@
+{
+  "name": "木更津高専単位カウンター",
+  "short_name": "単位カウンター",
+  "description": "木更津工業高等専門学校の卒業単位を計算するツール",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#000000",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["education", "utilities"],
+  "lang": "ja",
+  "dir": "ltr"
+}

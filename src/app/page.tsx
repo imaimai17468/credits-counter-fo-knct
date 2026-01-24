@@ -55,28 +55,56 @@ export default async function Home({ searchParams }: HomeProps) {
       ? params.year
       : availableYears[0] || "2024";
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    name: "木更津高専単位カウンター",
+    description:
+      "木更津工業高等専門学校の卒業に必要な単位数を計算するツールです。履修した科目にチェックを入れるだけで、一般科目・専門科目・特別学修の単位を自動計算します。",
+    url: "https://credits-counter-fo-knct.vercel.app",
+    applicationCategory: "EducationalApplication",
+    operatingSystem: "Web Browser",
+    offers: {
+      "@type": "Offer",
+      price: "0",
+      priceCurrency: "JPY",
+    },
+    inLanguage: "ja",
+    audience: {
+      "@type": "EducationalAudience",
+      educationalRole: "student",
+    },
+  };
+
   return (
-    <div className="space-y-6">
-      <div>
-        <p className="text-muted-foreground">
-          卒業に必要な単位数を計算するツールです。履修した科目にチェックを入れてください。
-        </p>
-      </div>
-
-      <div>
-        <YearSelector
-          availableYears={availableYears}
-          selectedYear={selectedYear}
-        />
-        <div className="mt-1 space-y-0.5 text-muted-foreground text-xs">
-          <p>※ 令和6年度からカリキュラムが変更されました</p>
-          <p>※ 令和4,5年度と令和3年度では特別学修の内容が異なります</p>
+    <>
+      <script
+        type="application/ld+json"
+        // biome-ignore lint/security/noDangerouslySetInnerHtml: JSON-LD structured data is safe
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <div className="space-y-6">
+        <div>
+          <p className="text-muted-foreground">
+            卒業に必要な単位数を計算するツールです。履修した科目にチェックを入れてください。
+          </p>
         </div>
-      </div>
 
-      <Suspense fallback={<LoadingState />}>
-        <CreditsCounterData year={selectedYear} />
-      </Suspense>
-    </div>
+        <div>
+          <YearSelector
+            availableYears={availableYears}
+            selectedYear={selectedYear}
+          />
+          <div className="mt-1 space-y-0.5 text-muted-foreground text-xs">
+            <p>※ 令和6年度からカリキュラムが変更されました</p>
+            <p>※ 令和4,5年度と令和3年度では特別学修の内容が異なります</p>
+          </div>
+        </div>
+
+        <Suspense fallback={<LoadingState />}>
+          <CreditsCounterData year={selectedYear} />
+        </Suspense>
+      </div>
+    </>
   );
 }
