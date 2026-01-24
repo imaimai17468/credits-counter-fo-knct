@@ -64,7 +64,6 @@ export function CourseTableRow({
         />
       </TableCell>
       <TableCell>{course.subjectName}</TableCell>
-      <TableCell className="text-center">{course.grade}</TableCell>
       <TableCell className="text-center">
         <div className="flex justify-center">
           <Badge

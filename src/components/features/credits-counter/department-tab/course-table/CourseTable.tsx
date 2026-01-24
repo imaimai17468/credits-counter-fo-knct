@@ -66,7 +66,6 @@ export function CourseTable({
           <TableRow>
             <TableHead className="w-12"></TableHead>
             <TableHead>教科名</TableHead>
-            <TableHead className="w-20 text-center">学年</TableHead>
             <TableHead className="w-24 text-center">科目</TableHead>
             <TableHead className="w-24 text-center">区分</TableHead>
             <TableHead className="w-24 text-center">単位数</TableHead>
@@ -89,7 +88,7 @@ export function CourseTable({
             return (
               <React.Fragment key={grade}>
                 <TableRow className="bg-muted/50 transition-colors hover:bg-muted/70">
-                  <td colSpan={6} className="px-4 py-3 font-semibold text-sm">
+                  <td colSpan={5} className="px-4 py-3 font-semibold text-sm">
                     <div className="flex flex-wrap items-center gap-2 md:gap-3">
                       <Checkbox
                         checked={allChecked}
