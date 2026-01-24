@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { Footer } from "@/components/shared/footer/Footer";
 import { Header } from "@/components/shared/header/Header";
 import { ThemeProvider } from "@/components/shared/theme-provider/ThemeProvider";
 import { Toaster } from "@/components/ui/sonner";
@@ -89,11 +90,12 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <div className="flex min-h-dvh flex-col gap-8">
+          <div className="flex min-h-dvh flex-col">
             <Header />
-            <div className="flex w-full flex-1 justify-center px-4 md:px-6">
+            <div className="flex w-full flex-1 justify-center px-4 py-8 md:px-6">
               <div className="w-full max-w-5xl">{children}</div>
             </div>
+            <Footer />
           </div>
           <Toaster richColors position="top-center" />
         </ThemeProvider>
