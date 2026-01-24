@@ -3,6 +3,7 @@ import { CreditsCounter } from "@/components/features/credits-counter/CreditsCou
 import { YearSelector } from "@/components/features/credits-counter/YearSelector";
 import {
   getAvailableYears,
+  loadActivityCredits,
   loadAllCourses,
   loadAllQualifications,
   loadSpecialCredits,
@@ -25,6 +26,7 @@ async function CreditsCounterData({ year }: CreditsCounterDataProps) {
   const coursesMap = loadAllCourses(year);
   const specialCredits = loadSpecialCredits(year);
   const qualificationsMap = loadAllQualifications(year);
+  const activityCredits = loadActivityCredits(year);
 
   return (
     <CreditsCounter
@@ -32,6 +34,7 @@ async function CreditsCounterData({ year }: CreditsCounterDataProps) {
       coursesMap={coursesMap}
       specialCredits={specialCredits}
       qualificationsMap={qualificationsMap}
+      activityCredits={activityCredits}
     />
   );
 }
@@ -60,10 +63,16 @@ export default async function Home({ searchParams }: HomeProps) {
         </p>
       </div>
 
-      <YearSelector
-        availableYears={availableYears}
-        selectedYear={selectedYear}
-      />
+      <div>
+        <YearSelector
+          availableYears={availableYears}
+          selectedYear={selectedYear}
+        />
+        <div className="mt-1 space-y-0.5 text-muted-foreground text-xs">
+          <p>※ 令和6年度からカリキュラムが変更されました</p>
+          <p>※ 令和4,5年度と令和3年度では特別学修の内容が異なります</p>
+        </div>
+      </div>
 
       <Suspense fallback={<LoadingState />}>
         <CreditsCounterData year={selectedYear} />

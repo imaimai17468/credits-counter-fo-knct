@@ -27,18 +27,19 @@ export function YearSelector({
     router.push(`/?year=${year}`);
   };
 
-  // 年度のラベルを生成（最新年度は「以降」、最も古い年度は「以前」）
-  const getYearLabel = (year: string, index: number) => {
-    const reiwa = Number.parseInt(year, 10) - 2018;
-    const baseLabel = `令和${reiwa}年度 (${year})`;
-
-    if (index === 0) {
-      return `${baseLabel} 以降`;
+  // 年度のラベルを生成
+  const getYearLabel = (year: string) => {
+    switch (year) {
+      case "2023":
+        return "令和4,5年度";
+      case "2024":
+        return "令和6年度 (2024) 以降";
+      default: {
+        // その他の年度は自動計算
+        const reiwa = Number.parseInt(year, 10) - 2018;
+        return `令和${reiwa}年度 (${year})`;
+      }
     }
-    if (index === availableYears.length - 1) {
-      return `${baseLabel} 以前`;
-    }
-    return baseLabel;
   };
 
   return (
@@ -51,9 +52,9 @@ export function YearSelector({
           <SelectValue placeholder="年度を選択" />
         </SelectTrigger>
         <SelectContent>
-          {availableYears.map((year, index) => (
+          {availableYears.map((year) => (
             <SelectItem key={year} value={year}>
-              {getYearLabel(year, index)}
+              {getYearLabel(year)}
             </SelectItem>
           ))}
         </SelectContent>
