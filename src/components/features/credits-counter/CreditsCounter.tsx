@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import type { ActivityCredit } from "@/entities/credits/activity-credit";
 import type { Course } from "@/entities/credits/course";
 import {
   ALL_DEPARTMENTS,
@@ -20,6 +21,7 @@ type CreditsCounterProps = {
   coursesMap: Record<Department, Course[]>;
   specialCredits: SpecialCredit[];
   qualificationsMap: Record<Department, Qualification[]>;
+  activityCredits: ActivityCredit[];
 };
 
 export function CreditsCounter({
@@ -27,6 +29,7 @@ export function CreditsCounter({
   coursesMap,
   specialCredits,
   qualificationsMap,
+  activityCredits,
 }: CreditsCounterProps) {
   const [selectedDepartment, setSelectedDepartment] = useState<Department>("M");
   const [state, dispatch] = useCreditsState();
@@ -61,6 +64,7 @@ export function CreditsCounter({
                 courses={coursesMap[dept]}
                 specialCredits={specialCredits}
                 qualifications={qualificationsMap[dept]}
+                activityCredits={activityCredits}
                 state={state}
                 dispatch={dispatch}
               />
