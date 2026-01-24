@@ -30,8 +30,10 @@ export function YearSelector({
   // 年度のラベルを生成
   const getYearLabel = (year: string) => {
     switch (year) {
+      case "2021":
+        return "令和3年度 (2021) 以前";
       case "2023":
-        return "令和4,5年度";
+        return "令和4,5年度 (2022-2023)";
       case "2024":
         return "令和6年度 (2024) 以降";
       default: {

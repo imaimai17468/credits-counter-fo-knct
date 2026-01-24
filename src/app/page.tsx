@@ -49,11 +49,13 @@ export default async function Home({ searchParams }: HomeProps) {
   // 利用可能な年度一覧を取得
   const availableYears = getAvailableYears();
 
-  // URLパラメータから年度を取得、デフォルトは最新年度
+  // URLパラメータから年度を取得、デフォルトは2021（令和3年度以前）
   const selectedYear =
     params.year && availableYears.includes(params.year)
       ? params.year
-      : availableYears[0] || "2024";
+      : availableYears.includes("2021")
+        ? "2021"
+        : availableYears[availableYears.length - 1] || "2021";
 
   const jsonLd = {
     "@context": "https://schema.org",
