@@ -1,3 +1,4 @@
+import type { ActivityCredit } from "@/entities/credits/activity-credit";
 import {
   type Course,
   GRADUATION_REQUIREMENTS,
@@ -17,6 +18,7 @@ export function calculateCredits(
   courses: Course[],
   specialCredits: SpecialCredit[],
   qualifications: Qualification[],
+  activityCredits: ActivityCredit[],
   studentCredits: StudentCredits,
 ): CreditsCalculationResult {
   // チェックされた授業の単位を計算
@@ -58,6 +60,12 @@ export function calculateCredits(
   for (const qualification of qualifications) {
     if (studentCredits.checkedQualifications.has(qualification.item)) {
       specialLearningTotal += qualification.credits;
+    }
+  }
+
+  for (const activity of activityCredits) {
+    if (studentCredits.checkedActivityCredits.has(activity.name)) {
+      specialLearningTotal += activity.credits;
     }
   }
 

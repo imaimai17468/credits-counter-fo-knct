@@ -1,5 +1,6 @@
 "use client";
 
+import type { ActivityCredit } from "@/entities/credits/activity-credit";
 import type { Course } from "@/entities/credits/course";
 import type { Department } from "@/entities/credits/department";
 import type { Qualification } from "@/entities/credits/qualification";
@@ -16,6 +17,7 @@ type DepartmentTabProps = {
   courses: Course[];
   specialCredits: SpecialCredit[];
   qualifications: Qualification[];
+  activityCredits: ActivityCredit[];
   state: CreditsState;
   dispatch: React.Dispatch<CreditsAction>;
 };
@@ -25,6 +27,7 @@ export function DepartmentTab({
   courses,
   specialCredits,
   qualifications,
+  activityCredits,
   state,
   dispatch,
 }: DepartmentTabProps) {
@@ -32,11 +35,13 @@ export function DepartmentTab({
     courses,
     specialCredits,
     qualifications,
+    activityCredits,
     {
       department,
       checkedCourses: state.checkedCourses,
       checkedSpecialCredits: state.checkedSpecialCredits,
       checkedQualifications: state.checkedQualifications,
+      checkedActivityCredits: state.checkedActivityCredits,
     },
   );
 
@@ -64,8 +69,10 @@ export function DepartmentTab({
       <SpecialCreditsSection
         specialCredits={specialCredits}
         qualifications={qualifications}
+        activityCredits={activityCredits}
         checkedSpecialCredits={state.checkedSpecialCredits}
         checkedQualifications={state.checkedQualifications}
+        checkedActivityCredits={state.checkedActivityCredits}
         dispatch={dispatch}
       />
     </div>
