@@ -9,7 +9,6 @@ import {
 import { Checkbox } from "@/components/ui/checkbox";
 import type { ActivityCredit } from "@/entities/credits/activity-credit";
 import { GRADUATION_REQUIREMENTS } from "@/entities/credits/course";
-import { DEPARTMENT_INFO } from "@/entities/credits/department";
 import type { Qualification } from "@/entities/credits/qualification";
 import type { SpecialCredit } from "@/entities/credits/special-credit";
 import type { CreditsAction } from "../../useCreditsState";
@@ -94,9 +93,7 @@ export function SpecialCreditsSection({
                     <label htmlFor={id} className="cursor-pointer text-sm">
                       {activity.displayName}{" "}
                       <span className="text-muted-foreground">
-                        ({activity.credits}単位 - {activity.targetGrade} -
-                        所属教員:{" "}
-                        {DEPARTMENT_INFO[activity.targetDepartment].shortName})
+                        ({activity.credits}単位)
                       </span>
                     </label>
                   </div>
