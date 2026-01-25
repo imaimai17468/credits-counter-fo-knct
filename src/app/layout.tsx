@@ -49,19 +49,19 @@ export const metadata: Metadata = {
     siteName: "木更津高専単位カウンター",
     images: [
       {
-        url: "/icon.png",
-        width: 512,
-        height: 512,
+        url: "/ogp-image.png",
+        width: 1200,
+        height: 630,
         alt: "木更津高専単位カウンター",
       },
     ],
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
     title: "木更津高専単位カウンター",
     description:
       "木更津工業高等専門学校の卒業に必要な単位数を計算するツールです。履修した科目にチェックを入れるだけで、単位を自動計算します。",
-    images: ["/icon.png"],
+    images: ["/ogp-image.png"],
   },
   icons: {
     icon: "/icon.png",
