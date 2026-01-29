@@ -7,14 +7,10 @@ import {
 
 /**
  * 特別学修（活動）データを読み込む
- * @param year - 年度（例: "2023", "2024"）
+ * @param _year - 年度（例: "2023", "2024"）※現在は全年度共通のデータを使用
  * @returns 特別学修（活動）データの配列
  */
-export function loadActivityCredits(year: string = "2024"): ActivityCredit[] {
-  // 2023年度（令和4,5年度）には活動系データは存在しない
-  if (year === "2023" || year === "2021") {
-    return [];
-  }
+export function loadActivityCredits(_year: string = "2024"): ActivityCredit[] {
   const filePath = path.join(
     process.cwd(),
     "public",
